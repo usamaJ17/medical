@@ -42,4 +42,40 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     * Get the user's travel.
+     */
+    public function travel()
+    {
+        return $this->hasOne(UserTravel::class);
+    }
+    /**
+     * Get the user's diagnose.
+     */
+    public function diagnose()
+    {
+        return $this->hasOne(UserDiagnose::class);
+    }
+    /**
+     * Get the user's emergency.
+     */
+    public function emergency()
+    {
+        return $this->hasMany(UserEmergency::class);
+    }
+    /**
+     * Get the user's lifestyle.
+     */
+    public function lifestyle()
+    {
+        return $this->hasOne(UserLifestyle::class);
+    }
+    /**
+     * Get the user's immun.
+     */
+    public function immun()
+    {
+        return $this->hasOne(UserImmun::class);
+    }
 }
