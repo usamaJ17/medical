@@ -82,17 +82,13 @@ class AuthController extends Controller
                 $l_f->save();
 
                 foreach($request->emergencyContacts as $item) {
-                    return $item['phoneNumber'];
-
-                    Log::info($item->phoneNumber);
-                    Log::info($item['nameOfEmergencyContact']);
                     $e_c = new UserEmergency();
                     $e_c->user_id = $user->id;
-                    $e_c->nameOfEmergencyContact = $item[0]->nameOfEmergencyContact;
-                    $e_c->phoneNumber = $item[0]->phoneNumber;
-                    $e_c->relationship = $item[0]->relationship;
-                    $e_c->email = $item[0]->email;
-                    $e_c->mediaiId = $item[0]->mediaiId;
+                    $e_c->nameOfEmergencyContact = $item['nameOfEmergencyContact'];
+                    $e_c->phoneNumber = $item['phoneNumber'];
+                    $e_c->relationship = $item['relationship'];
+                    $e_c->email = $item['email'];
+                    $e_c->mediaiId = $item['mediaiId'];
 
                     $e_c->save();
                 }
