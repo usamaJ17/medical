@@ -108,12 +108,11 @@ class AuthController extends Controller
                     'postalCode' => $request->personalDetails['postalCode'],
                     'currency' => $request->personalDetails['currency'],
                 ]);   
-                return $request->workingHours;
-                HospitalData::create([
-                    'user_id' => $user->id,
-                    'working_hours' => json_encode($request->workingHours),
-                    'availableDoctors' => json_encode($request->availableDoctors),
-                ]);
+                // HospitalData::create([
+                //     'user_id' => $user->id,
+                //     'working_hours' => json_encode($request->workingHours),
+                //     'availableDoctors' => json_encode($request->availableDoctors),
+                // ]);
             }
             $user->assignRole($request->role);
 
