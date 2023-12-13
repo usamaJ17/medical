@@ -48,6 +48,50 @@ class AuthController extends Controller
                     'height' => $request->personalDetails['height'],
                     'weight' => $request->personalDetails['weight'],
                 ]);   
+                $t_d = array_merge($request->travelDetails, ['user_id' => $user->id]);
+                UserTravel::create($t_d);
+
+                $medicalHistory = new MedicalHistory();
+                $medicalHistory->user_id = $user->id;
+                $medicalHistory->medication = $request->medicalHistory['medication'];
+                $medicalHistory->sicknessHistory = json_encode($request->medicalHistory['sicknessHistory']);
+                $medicalHistory->medicalCondition = $request->medicalHistory['medicalCondition'];
+                $medicalHistory->surgicalHistory = $request->medicalHistory['surgicalHistory'];
+                $medicalHistory->allergy = $request->medicalHistory['allergy'];
+                $medicalHistory->medicationTypes = json_encode($request->medicalHistory['medicationTypes']);
+                $medicalHistory->customInputMedications = json_encode($request->medicalHistory['customInputMedications']);
+                $medicalHistory->save();
+
+                $v_h = new VaccineHistory();
+                $v_h->user_id = $user->id;
+                $v_h->hasReceivedCovidVaccine = $request->vaccineHistory['hasReceivedCovidVaccine'];
+                $v_h->dosesReceived = $request->vaccineHistory['dosesReceived'];
+                $v_h->timeSinceLastVaccination = $request->vaccineHistory['timeSinceLastVaccination'];
+                $v_h->immunizationHistory = json_encode($request->vaccineHistory['immunizationHistory']);
+
+                $v_h->save();
+
+                foreach($request->emergencyContacts as $item){
+                    $e_c = new UserEmergency();
+                    $e_c->user_id = $user->id;
+                    $e_c->nameOfEmergencyContact = $item->nameOfEmergencyContact;
+                    $e_c->phoneNumber = $item->phoneNumber;
+                    $e_c->relationship = $item->relationship;
+                    $e_c->email = $item->email;
+                    $e_c->mediaiId = $item->mediaiId;
+
+                    $e_c->save();
+                }
+
+
+                $l_f = new UserLifestyle();
+                $l_f->user_id = $user->id;
+                $l_f->smokingHabits = $request->lifestyleFactors['smokingHabits'];
+                $l_f->alcoholConsumptions = $request->lifestyleFactors['alcoholConsumptions'];
+                $l_f->physicalActivityLevel = $request->lifestyleFactors['physicalActivityLevel'];
+                $l_f->preferences = $request->lifestyleFactors['preferences'];
+
+                $l_f->save();
             }elseif($request->role == 'hospital'){
                 $user = User::create([
                     'name' => $request->personalDetails['name'],
@@ -65,50 +109,6 @@ class AuthController extends Controller
                 ]);   
             }
             $user->assignRole($request->role);
-
-            $t_d = array_merge($request->travelDetails, ['user_id' => $user->id]);
-            UserTravel::create($t_d);
-
-            $medicalHistory = new MedicalHistory();
-            $medicalHistory->user_id = $user->id;
-            $medicalHistory->medication = $request->medicalHistory['medication'];
-            $medicalHistory->sicknessHistory = json_encode($request->medicalHistory['sicknessHistory']);
-            $medicalHistory->medicalCondition = $request->medicalHistory['medicalCondition'];
-            $medicalHistory->surgicalHistory = $request->medicalHistory['surgicalHistory'];
-            $medicalHistory->allergy = $request->medicalHistory['allergy'];
-            $medicalHistory->medicationTypes = json_encode($request->medicalHistory['medicationTypes']);
-            $medicalHistory->customInputMedications = json_encode($request->medicalHistory['customInputMedications']);
-            $medicalHistory->save();
-
-            $v_h = new VaccineHistory();
-            $v_h->user_id = $user->id;
-            $v_h->hasReceivedCovidVaccine = $request->vaccineHistory['hasReceivedCovidVaccine'];
-            $v_h->dosesReceived = $request->vaccineHistory['dosesReceived'];
-            $v_h->timeSinceLastVaccination = $request->vaccineHistory['timeSinceLastVaccination'];
-            $v_h->immunizationHistory = json_encode($request->vaccineHistory['immunizationHistory']);
-
-            $v_h->save();
-
-            $e_c = new UserEmergency();
-            $e_c->user_id = $user->id;
-            $e_c->nameOfEmergencyContact = $request->emergencyContacts['nameOfEmergencyContact'];
-            $e_c->phoneNumber = $request->emergencyContacts['phoneNumber'];
-            $e_c->relationship = $request->emergencyContacts['relationship'];
-            $e_c->email = $request->emergencyContacts['email'];
-            $e_c->mediaiId = $request->emergencyContacts['mediaiId'];
-
-            $e_c->save();
-
-
-            $l_f = new UserLifestyle();
-            $l_f->user_id = $user->id;
-            $l_f->smokingHabits = $request->lifestyleFactors['smokingHabits'];
-            $l_f->alcoholConsumptions = $request->lifestyleFactors['alcoholConsumptions'];
-            $l_f->physicalActivityLevel = $request->lifestyleFactors['physicalActivityLevel'];
-            $l_f->preferences = $request->lifestyleFactors['preferences'];
-
-            $l_f->save();
-
 
             return response()->json([
                 'user' => $user,

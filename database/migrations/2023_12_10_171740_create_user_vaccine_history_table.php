@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('vaccine_history', function (Blueprint $table) {
             $table->id();
+            $table->integer('user_id')->nullable();
             $table->integer('hasReceivedCovidVaccine')->nullable();
             $table->string('dosesReceived')->nullable();
             $table->date('timeSinceLastVaccination')->nullable();
