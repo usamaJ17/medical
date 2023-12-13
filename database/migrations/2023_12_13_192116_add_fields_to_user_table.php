@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('user', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             $table->string('currency')->nullable();
             $table->string('websiteUrl')->nullable();
             $table->string('location')->nullable();
