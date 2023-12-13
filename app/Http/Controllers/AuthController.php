@@ -6,15 +6,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
-use Spatie\Permission\Models\Role;
 class AuthController extends Controller
 {
     public function register(Request $request)
     {
-        Role::create(['name' => 'doctor']);
-        Role::create(['name' => 'patient']);
-        Role::create(['name' => 'ambulance']);
-        die();
         Log::info('register');
         Log::info(json_encode($request->all()));
         Log::info($request->all());
