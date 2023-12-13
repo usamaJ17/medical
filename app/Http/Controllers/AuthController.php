@@ -5,11 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-
+use Illuminate\Support\Facades\Log;
 class AuthController extends Controller
 {
     public function register(Request $request)
     {
+        Log::info('register');
+        Log::info(json_encode($request->all()));
+        Log::info($request->all());
+        return response()->json([
+            'message' => 'Successfully created user!'
+        ], 201);
         // Validate and store new user
         $request->validate([
             'name' => 'required|string',
