@@ -82,6 +82,8 @@ class AuthController extends Controller
                 $l_f->save();
 
                 foreach($request->emergencyContacts as $item) {
+                    return $item;
+
                     Log::info($item);
                     Log::info($item['nameOfEmergencyContact']);
                     $e_c = new UserEmergency();
