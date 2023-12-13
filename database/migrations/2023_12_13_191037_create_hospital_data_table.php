@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('hospital_data', function (Blueprint $table) {
             $table->id();
-            $table->id('user_id')->nullable();
+            $table->integer('user_id')->nullable();
             $table->text('working_hours')->nullable();
             $table->text('availableDoctors')->nullable();
             $table->timestamps();
