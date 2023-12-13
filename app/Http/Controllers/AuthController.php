@@ -113,6 +113,7 @@ class AuthController extends Controller
                     'working_hours' => json_encode($request->workingHours),
                     'availableDoctors' => json_encode($request->availableDoctors),
                 ]);
+                dd('asd');
             }
             $user->assignRole($request->role);
 
