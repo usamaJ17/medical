@@ -31,38 +31,84 @@ class AuthController extends Controller
                     'errors' => $validateUser->errors()
                 ], 401);
             }
-            $user = User::create([
-                'firstName' => $request->personalDetails['firstName'],
-                'lastName' => $request->personalDetails['lastName'],
-                'dateOfBirth' => $request->personalDetails['dateOfBirth'],
-                'gender' => $request->personalDetails['gender'],
-                'email' => $request->personalDetails['email'],
-                'password' => Hash::make($request->personalDetails['password']),
-                'country' => $request->personalDetails['country'],
-                'address' => $request->personalDetails['address'],
-                'bloodType' => $request->personalDetails['bloodType'],
-                'city' => $request->personalDetails['city'],
-                'postalCode' => $request->personalDetails['postalCode'],
-                'passportNumber' => $request->personalDetails['passportNumber'],
-                'height' => $request->personalDetails['height'],
-                'weight' => $request->personalDetails['weight'],
-            ]);
+            if($request->role == 'patient'){
+                $user = User::create([
+                    'firstName' => $request->personalDetails['firstName'],
+                    'lastName' => $request->personalDetails['lastName'],
+                    'dateOfBirth' => $request->personalDetails['dateOfBirth'],
+                    'gender' => $request->personalDetails['gender'],
+                    'email' => $request->personalDetails['email'],
+                    'password' => Hash::make($request->personalDetails['password']),
+                    'country' => $request->personalDetails['country'],
+                    'address' => $request->personalDetails['address'],
+                    'bloodType' => $request->personalDetails['bloodType'],
+                    'city' => $request->personalDetails['city'],
+                    'postalCode' => $request->personalDetails['postalCode'],
+                    'passportNumber' => $request->personalDetails['passportNumber'],
+                    'height' => $request->personalDetails['height'],
+                    'weight' => $request->personalDetails['weight'],
+                ]);   
+            }elseif($request->role == 'hospital'){
+                $user = User::create([
+                    'name' => $request->personalDetails['name'],
+                    'phoneNumber' => $request->personalDetails['phoneNumber'],
+                    'location' => $request->personalDetails['location'],
+                    'email' => $request->personalDetails['email'],
+                    'password' => Hash::make($request->personalDetails['password']),
+                    'country' => $request->personalDetails['country'],
+                    'address' => $request->personalDetails['address'],
+                    'websiteUrl' => $request->personalDetails['websiteUrl'],
+                    'city' => $request->personalDetails['city'],
+                    'postalCode' => $request->personalDetails['postalCode'],
+                    'currency' => $request->personalDetails['currency'],
+
+                ]);   
+            }
             $user->assignRole($request->role);
 
             $t_d = array_merge($request->travelDetails, ['user_id' => $user->id]);
             UserTravel::create($t_d);
 
-            $m_h = array_merge($request->medicalHistory, ['user_id' => $user->id]);
-            MedicalHistory::create($m_h);
+            $medicalHistory = new MedicalHistory();
+            $medicalHistory->user_id = $user->id;
+            $medicalHistory->medication = $request->medicalHistory['medication'];
+            $medicalHistory->sicknessHistory = json_encode($request->medicalHistory['sicknessHistory']);
+            $medicalHistory->medicalCondition = $request->medicalHistory['medicalCondition'];
+            $medicalHistory->surgicalHistory = $request->medicalHistory['surgicalHistory'];
+            $medicalHistory->allergy = $request->medicalHistory['allergy'];
+            $medicalHistory->medicationTypes = json_encode($request->medicalHistory['medicationTypes']);
+            $medicalHistory->customInputMedications = json_encode($request->medicalHistory['customInputMedications']);
+            $medicalHistory->save();
 
-            $v_h = array_merge($request->vaccineHistory, ['user_id' => $user->id]);
-            VaccineHistory::create($v_h);
+            $v_h = new VaccineHistory();
+            $v_h->user_id = $user->id;
+            $v_h->hasReceivedCovidVaccine = $request->vaccineHistory['hasReceivedCovidVaccine'];
+            $v_h->dosesReceived = $request->vaccineHistory['dosesReceived'];
+            $v_h->timeSinceLastVaccination = $request->vaccineHistory['timeSinceLastVaccination'];
+            $v_h->immunizationHistory = json_encode($request->vaccineHistory['immunizationHistory']);
 
-            $e_c = array_merge($request->emergencyContacts, ['user_id' => $user->id]);
-            UserEmergency::create($e_c);
+            $v_h->save();
 
-            $l_f = array_merge($request->lifestyleFactors, ['user_id' => $user->id]);
-            UserLifestyle::create($l_f);
+            $e_c = new UserEmergency();
+            $e_c->user_id = $user->id;
+            $e_c->nameOfEmergencyContact = $request->emergencyContacts['nameOfEmergencyContact'];
+            $e_c->phoneNumber = $request->emergencyContacts['phoneNumber'];
+            $e_c->relationship = $request->emergencyContacts['relationship'];
+            $e_c->email = $request->emergencyContacts['email'];
+            $e_c->mediaiId = $request->emergencyContacts['mediaiId'];
+
+            $e_c->save();
+
+
+            $l_f = new UserLifestyle();
+            $l_f->user_id = $user->id;
+            $l_f->smokingHabits = $request->lifestyleFactors['smokingHabits'];
+            $l_f->alcoholConsumptions = $request->lifestyleFactors['alcoholConsumptions'];
+            $l_f->physicalActivityLevel = $request->lifestyleFactors['physicalActivityLevel'];
+            $l_f->preferences = $request->lifestyleFactors['preferences'];
+
+            $l_f->save();
+
 
             return response()->json([
                 'user' => $user,
