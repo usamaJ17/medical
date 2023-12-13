@@ -71,18 +71,6 @@ class AuthController extends Controller
 
                 $v_h->save();
 
-                foreach($request->emergencyContacts as $item){
-                    $e_c = new UserEmergency();
-                    $e_c->user_id = $user->id;
-                    $e_c->nameOfEmergencyContact = $item->nameOfEmergencyContact;
-                    $e_c->phoneNumber = $item->phoneNumber;
-                    $e_c->relationship = $item->relationship;
-                    $e_c->email = $item->email;
-                    $e_c->mediaiId = $item->mediaiId;
-
-                    $e_c->save();
-                }
-
 
                 $l_f = new UserLifestyle();
                 $l_f->user_id = $user->id;
@@ -92,6 +80,19 @@ class AuthController extends Controller
                 $l_f->preferences = $request->lifestyleFactors['preferences'];
 
                 $l_f->save();
+
+                foreach($request->emergencyContacts as $item) {
+                    $e_c = new UserEmergency();
+                    $e_c->user_id = $user->id;
+                    $e_c->nameOfEmergencyContact = $item[0]->nameOfEmergencyContact;
+                    $e_c->phoneNumber = $item[0]->phoneNumber;
+                    $e_c->relationship = $item[0]->relationship;
+                    $e_c->email = $item[0]->email;
+                    $e_c->mediaiId = $item[0]->mediaiId;
+
+                    $e_c->save();
+                }
+
             }elseif($request->role == 'hospital'){
                 $user = User::create([
                     'name' => $request->personalDetails['name'],
