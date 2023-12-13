@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,7 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 // Authentication Routes
-Route::post('/register', 'AuthController@register');
+Route::post('/register',[AuthController::class, 'register'])->name('register');
 Route::post('/login', 'AuthController@login')->name('login');
 
 // Sanctum routes for SPA authentication
