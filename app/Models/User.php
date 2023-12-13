@@ -33,7 +33,12 @@ class User extends Authenticatable
         'city',
         'bloodType',
         'address',
-        'email_verified_at'
+        'email_verified_at',
+        'currency',
+        'websiteUrl',
+        'location',
+        'phoneNumber',
+        'name'
     ];
 
 
