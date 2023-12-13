@@ -22,7 +22,6 @@ return new class extends Migration
             $table->string('height');
             $table->string('passportNumber');
             $table->string('postalCode');
-            $table->string('postalCode');
             $table->string('city');
             $table->string('bloodType');
             $table->string('address');
