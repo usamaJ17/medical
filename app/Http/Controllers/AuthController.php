@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\HospitalData;
 use App\Models\MedicalHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -107,6 +108,11 @@ class AuthController extends Controller
                     'postalCode' => $request->personalDetails['postalCode'],
                     'currency' => $request->personalDetails['currency'],
                 ]);   
+                HospitalData::create([
+                    'user_id' => $user->id,
+                    'working_hours' => json_encode($request->workingHours),
+                    'availableDoctors' => json_encode($request->availableDoctors),
+                ]);
             }
             $user->assignRole($request->role);
 
