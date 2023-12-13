@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('user_travel', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id')->nullable();
-            $table->string('reason')->nullable();
-            $table->date('date')->nullable();
-            $table->string('location')->nullable();
+            $table->string('travelReason')->nullable();
+            $table->date('dateOfTravel')->nullable();
+            $table->string('travelLocation')->nullable();
             $table->timestamps();
         });
     }

@@ -9,4 +9,11 @@ class UserLifestyle extends Model
 {
     use HasFactory;
     protected $table = 'user_lifestyle';
+    protected $fillable = [
+        'user_id',
+        'smokingHabits',
+        'alcoholConsumptions',
+        'physicalActivityLevel',
+        'preferences',
+    ];
 }

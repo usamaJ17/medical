@@ -11,15 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_diagnose', function (Blueprint $table) {
+        Schema::create('medical_history', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id')->nullable();
-            $table->string('condition')->nullable();
-            $table->text('diagnose_json')->nullable();
-            $table->string('history')->nullable();
-            $table->string('allergy')->nullable();
             $table->string('medication')->nullable();
-            $table->text('medication_json')->nullable();
+            $table->text('sicknessHistory')->nullable();
+            $table->string('medicalCondition')->nullable();
+            $table->string('surgicalHistory')->nullable();
+            $table->string('allergy')->nullable();
+            $table->text('medicationTypes')->nullable();
+            $table->text('customInputMedications')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_diagnose');
+        Schema::dropIfExists('medical_history');
     }
 };

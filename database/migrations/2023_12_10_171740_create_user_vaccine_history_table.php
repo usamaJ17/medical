@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_immunization', function (Blueprint $table) {
+        Schema::create('vaccine_history', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id')->nullable();
-            $table->string('vaccine')->nullable();
-            $table->date('date')->nullable();
-            $table->text('vac_json')->nullable();
+            $table->integer('hasReceivedCovidVaccine')->nullable();
+            $table->string('dosesReceived')->nullable();
+            $table->date('timeSinceLastVaccination')->nullable();
+            $table->text('immunizationHistory')->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_immunization');
+        Schema::dropIfExists('vaccine_history');
     }
 };

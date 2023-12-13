@@ -5,14 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserTravel extends Model
+class VaccineHistory extends Model
 {
     use HasFactory;
-    protected $table = 'user_travel';
+    protected $table = 'vaccine_history';
     protected $fillable = [
         'user_id',
-        'travelReason',
-        'dateOfTravel',
-        'travelLocation',
+        'hasReceivedCovidVaccine',
+        'dosesReceived',
+        'timeSinceLastVaccination',
+        'immunizationHistory',
     ];
 }
