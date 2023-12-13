@@ -10,18 +10,10 @@ class AuthController extends Controller
 {
     public function register(Request $request)
     {
-        Log::info('register');
-        Log::info(json_encode($request->all()));
-        Log::info($request->all());
+        Log::info($request->personalDetails);
         return response()->json([
             'message' => 'Successfully created user!'
         ], 201);
-        // Validate and store new user
-        $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|confirmed'
-        ]);
         $user= new User([
             'name' => $request->name,
             'email' => $request->email,
