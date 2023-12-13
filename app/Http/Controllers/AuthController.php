@@ -106,7 +106,6 @@ class AuthController extends Controller
                     'city' => $request->personalDetails['city'],
                     'postalCode' => $request->personalDetails['postalCode'],
                     'currency' => $request->personalDetails['currency'],
-
                 ]);   
             }
             $user->assignRole($request->role);
